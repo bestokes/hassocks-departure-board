@@ -7,9 +7,13 @@ import time
 from datetime import datetime
 from screenshot_service import take_departure_board_screenshot
 
-# Get API credentials from environment variables with fallbacks
-API_KEY = os.environ.get('RAIL_API_KEY')
-API_URL = os.environ.get('RAIL_API_URL')
+# Import API credentials from credentials file
+try:
+    from credentials import API_KEY, API_URL
+except ImportError:
+    # Fallback to environment variables if credentials file is not available
+    API_KEY = os.environ.get('RAIL_API_KEY')
+    API_URL = os.environ.get('RAIL_API_URL')
 
 app = Flask(__name__)
 
@@ -66,16 +70,16 @@ def parse_train_services(data):
         # Determine status
         if service_info['is_cancelled']:
             service_info['status'] = 'Cancelled'
-            service_info['status_class'] = 'cancelled'
+            service_info['status_class'] = 'status-cancelled'
         elif service_info['etd'] == 'Delayed':
             service_info['status'] = 'Delayed'
-            service_info['status_class'] = 'delayed'
+            service_info['status_class'] = 'status-delayed'
         elif service_info['etd'] != 'On time' and service_info['etd'] != service_info['std']:
             service_info['status'] = service_info['etd']
-            service_info['status_class'] = 'delayed'
+            service_info['status_class'] = 'status-delayed'
         else:
             service_info['status'] = 'On time'
-            service_info['status_class'] = 'on-time'
+            service_info['status_class'] = 'status-on-time'
         
         services.append(service_info)
     

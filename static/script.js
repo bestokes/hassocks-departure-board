@@ -80,7 +80,7 @@ class DepartureBoard {
                     <div class="destination">${this.escapeHtml(service.destination)}</div>
                     <div class="operator">${this.escapeHtml(service.operator)}</div>
                 </div>
-                <div class="service-status status-${service.status_class}">
+                <div class="service-status ${service.status_class}">
                     ${this.escapeHtml(service.status)}
                 </div>
             </div>
