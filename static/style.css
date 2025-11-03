@@ -1,0 +1,211 @@
+/* Reset and base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Helvetica', Arial, sans-serif;
+    background: #fff;
+    color: #000;
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.container {
+    width: 800px;
+    height: 480px;
+    margin: 0 auto;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+}
+
+/* Header styles */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 0;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 5px;
+}
+
+h1 {
+    font-size: 18px;
+    font-weight: bold;
+    color: #000;
+}
+
+.header-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#last-updated {
+    font-size: 12px;
+    color: #666;
+}
+
+/* Main departure board */
+.departure-board {
+    display: flex;
+    flex: 1;
+    gap: 10px;
+    margin-bottom: 5px;
+}
+
+.platform-column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: #f5f5f5;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    overflow: hidden;
+    min-width: 0; /* Ensure flex items can shrink properly */
+}
+
+.platform-column h2 {
+    background: #333;
+    color: #fff;
+    padding: 6px;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    border-bottom: 1px solid #555;
+    text-transform: uppercase;
+}
+
+.platform-services {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 4px;
+    gap: 4px;
+}
+
+/* Service item styles */
+.service-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 4px;
+    margin-bottom: 4px;
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 3px;
+    font-size: 13px;
+    min-height: 40px;
+}
+
+.service-time {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 50px;
+    padding: 0 3px;
+}
+
+.scheduled-time {
+    font-size: 14px;
+    font-weight: bold;
+    color: #000;
+    line-height: 1.1;
+}
+
+.estimated-time {
+    font-size: 11px;
+    margin-top: 1px;
+    color: #666;
+    font-weight: 500;
+}
+
+.service-details {
+    flex: 1;
+    padding: 0 6px;
+}
+
+.destination {
+    font-weight: bold;
+    color: #000;
+    margin-bottom: 2px;
+    font-size: 13px;
+    line-height: 1.1;
+}
+
+.operator {
+    font-size: 10px;
+    color: #666;
+    font-weight: 500;
+}
+
+.service-status {
+    min-width: 70px;
+    text-align: center;
+    padding: 4px 6px;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: bold;
+    border: 1px solid transparent;
+}
+
+/* Status colors */
+.status-on-time {
+    background: #28a745;
+    color: #fff;
+    border-color: #1e7e34;
+}
+
+.status-delayed {
+    background: #ffc107;
+    color: #212529;
+    border-color: #e0a800;
+}
+
+.status-cancelled {
+    background: #dc3545;
+    color: #fff;
+    border-color: #c82333;
+}
+
+/* Loading state */
+.loading {
+    text-align: center;
+    padding: 20px;
+    color: #666;
+    font-style: italic;
+}
+
+/* Responsive adjustments */
+@media (max-width: 799px) {
+    .container {
+        width: 100vw;
+        height: 100vh;
+    }
+    
+    .departure-board {
+        flex-direction: column;
+    }
+    
+    .platform-column {
+        min-height: 250px;
+    }
+}
+
+/* Animation for updates */
+@keyframes highlight {
+    0% { background-color: #fff; }
+    50% { background-color: #e6f7ff; }
+    100% { background-color: #fff; }
+}
+
+.service-item.updated {
+    animation: highlight 1s ease-in-out;
+}

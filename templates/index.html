@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hassocks Station Departures</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Hassocks Station</h1>
+            <div class="header-info">
+                <span id="last-updated">Last updated: <span id="update-time">--:--:--</span></span>
+            </div>
+        </header>
+        
+        <main class="departure-board">
+            <div class="platform-column">
+                <h2>Platform 1</h2>
+                <div id="platform-1" class="platform-services">
+                    <div class="loading">Loading...</div>
+                </div>
+            </div>
+            
+            <div class="platform-column">
+                <h2>Platform 2</h2>
+                <div id="platform-2" class="platform-services">
+                    <div class="loading">Loading...</div>
+                </div>
+            </div>
+        </main>
+        
+        <footer>
+            <!-- Footer content removed as no platform assignment section is no longer needed -->
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
