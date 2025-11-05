@@ -2,7 +2,7 @@
 
 A Flask web application that displays real-time train departure information using the UK Rail Data API. This is lightly optimised for Hassocks (HSK) but can work for any UK railway station by changing the 3 letter station code in the API URL. 
 
-As well as a near realtime dashboard, an 800x480 image is generated when data is refreshed, this is intended for displaying on an e-paper display.
+As well as a realtime dashboard, an 800x480 image is generated when data is refreshed, this is intended for displaying on an e-paper display.
 
 ![Screenshot](static/image.png "Screenshot")
 
@@ -12,9 +12,7 @@ As well as a near realtime dashboard, an 800x480 image is generated when data is
 - **Platform Display**: Shows services grouped by Platform 1 and Platform 2
 - **Status Indicators**: Color-coded status (On time, Delayed, Cancelled)
 - **Auto-refresh**: Updates every 30 seconds
-- **Responsive Design**: Optimized for 800x480 display
-- **Clean Interface**: White background with Helvetica font
-- **Automatic Updates**: No manual refresh required
+- **Responsive Design**: Optimized for 800x480 display, portrait or landscape
 
 ## Running Without Docker
 
@@ -78,14 +76,6 @@ docker run -d -p 5001:5001 \
 ### Access the Application
 
 Once running, open your browser and navigate to: http://localhost:5001
-Access screenshots: http://localhost:5001/image.png 
 
-## Display Features
+Fetch the latest dashboard screenshot: http://localhost:5001/image.png 
 
-- **Platform Columns**: Two columns showing Platform 1 and Platform 2 services (note: optimised for Hassocks - only 2 platforms)
-- **Service Information**: Time, destination, operator, and status
-- **Status Colors**:
-  - Green: On time
-  - Yellow: Delayed
-  - Red: Cancelled
-- **Last Updated**: Shows when data was last refreshed
