@@ -1,0 +1,25 @@
+[Unit]
+Description=Hassocks Station Departure Board
+After=network.target
+Wants=network.target
+
+[Service]
+Type=simple
+User=ben
+Group=ben
+WorkingDirectory=/opt/hassocks-departure-board
+Environment=PYTHONUNBUFFERED=1
+Environment=FLASK_ENV=production
+
+# Use the full path to python3 and app.py
+ExecStart=/usr/bin/python3 /opt/hassocks-departure-board/app.py
+Restart=always
+RestartSec=10
+
+# Logging
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=hassocks-departure-board
+
+[Install]
+WantedBy=multi-user.target

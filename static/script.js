@@ -1,18 +1,72 @@
 class DepartureBoard {
     constructor() {
-        this.refreshInterval = 30000; // 30 seconds
+        this.refreshInterval = 30000; // Default 30 seconds
+        this.currentIntervalId = null;
         this.isRefreshing = false;
+        this.pollingSchedule = null;
         this.init();
     }
 
-    init() {
+    async init() {
+        await this.loadPollingSchedule();
         this.bindEvents();
         this.loadDepartures();
-        this.startAutoRefresh();
+        this.startDynamicAutoRefresh();
     }
 
     bindEvents() {
         // No refresh button, so no events to bind
+    }
+
+    async loadPollingSchedule() {
+        try {
+            const response = await fetch('/api/polling-schedule');
+            if (response.ok) {
+                this.pollingSchedule = await response.json();
+                console.log('Polling schedule loaded:', this.pollingSchedule);
+            } else {
+                throw new Error('Failed to load polling schedule');
+            }
+        } catch (error) {
+            console.error('Error loading polling schedule:', error);
+            // No fallback schedule - rely on default behavior
+            this.pollingSchedule = null;
+        }
+    }
+
+    parseFrequency(frequency) {
+        if (!frequency) return 30000; // Default 30 seconds
+        
+        const unit = frequency.slice(-1);
+        const value = parseInt(frequency.slice(0, -1));
+        
+        if (isNaN(value)) return 30000; // Default 30 seconds
+        
+        switch (unit) {
+            case 's': return value * 1000; // seconds to milliseconds
+            case 'm': return value * 60 * 1000; // minutes to milliseconds
+            default: return 30000; // Default 30 seconds
+        }
+    }
+
+    getCurrentHour() {
+        const now = new Date();
+        return now.getHours().toString().padStart(2, '0');
+    }
+
+    getCurrentPollingInterval() {
+        if (!this.pollingSchedule) {
+            return 30000; // Default 30 seconds if no schedule loaded
+        }
+        
+        const currentHour = this.getCurrentHour();
+        const frequency = this.pollingSchedule[currentHour];
+        
+        if (frequency) {
+            return this.parseFrequency(frequency);
+        }
+        
+        return 30000; // Default 30 seconds if hour not found
     }
 
     async loadDepartures() {
@@ -64,7 +118,6 @@ class DepartureBoard {
         platformElement.innerHTML = html;
     }
 
-
     createServiceHTML(service) {
         const estimatedTime = service.etd && service.etd !== service.std && service.etd !== 'On time' 
             ? `<div class="estimated-time">${this.escapeHtml(service.etd)}</div>` 
@@ -100,10 +153,35 @@ class DepartureBoard {
         document.getElementById('platform-2').innerHTML = errorHTML;
     }
 
-    startAutoRefresh() {
-        setInterval(() => {
+    startDynamicAutoRefresh() {
+        const checkAndRefresh = () => {
+            const newInterval = this.getCurrentPollingInterval();
+            
+            // Only restart interval if the frequency has changed
+            if (newInterval !== this.refreshInterval) {
+                console.log(`Polling interval changed from ${this.refreshInterval}ms to ${newInterval}ms`);
+                this.refreshInterval = newInterval;
+                
+                // Clear existing interval
+                if (this.currentIntervalId) {
+                    clearInterval(this.currentIntervalId);
+                }
+                
+                // Start new interval
+                this.currentIntervalId = setInterval(() => {
+                    this.loadDepartures();
+                }, this.refreshInterval);
+            }
+            
+            // Load departures immediately
             this.loadDepartures();
-        }, this.refreshInterval);
+        };
+
+        // Check every minute for schedule changes
+        setInterval(checkAndRefresh, 60000);
+        
+        // Initial setup
+        checkAndRefresh();
     }
 }
 

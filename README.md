@@ -1,10 +1,6 @@
 # Hassocks Station Departure Board
 
-A Flask web application that displays real-time train departure information using the UK Rail Data API. This is lightly optimised for Hassocks (HSK) but can work for any UK railway station by changing the 3 letter station code in the API URL. 
-
-As well as a realtime dashboard, an 800x480 image is generated when data is refreshed, this is intended for displaying on an e-paper display.
-
-![Screenshot](static/image.png "Screenshot")
+A Flask web application that displays real-time train departure information using the UK Rail Data API. This is lightly optimised for Hassocks (HSK) but can work for any UK railway station by changing the 3 letter station code in the API URL.
 
 ## Features
 
@@ -27,7 +23,6 @@ As well as a realtime dashboard, an 800x480 image is generated when data is refr
 1. **Install dependencies**:
    ```bash
    pip install -r requirements.txt
-   python -m playwright install
    ```
 
 2. **Run the application**:
@@ -76,6 +71,3 @@ docker run -d -p 5001:5001 \
 ### Access the Application
 
 Once running, open your browser and navigate to: http://localhost:5001
-
-Fetch the latest dashboard screenshot: http://localhost:5001/image.png 
-
