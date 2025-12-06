@@ -7,7 +7,7 @@ A Flask web application that displays real-time train departure information usin
 - **Live Data**: Fetches real-time train data from the UK Rail Data API
 - **Platform Display**: Shows services grouped by Platform 1 and Platform 2
 - **Status Indicators**: Color-coded status (On time, Delayed, Cancelled)
-- **Auto-refresh**: Updates every 30 seconds
+- **Auto-refresh**: Updates according to the defined polling_schedule.json
 - **Responsive Design**: Optimized for 800x480 display, portrait or landscape
 
 ## Running Without Docker
